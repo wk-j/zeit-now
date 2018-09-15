@@ -22,3 +22,9 @@ docker history microsoft/dotnet:2.1-aspnetcore-runtime-alpine -H
 dotnet publish src/ZeitNow -c Release
 ls src/ZeitNow/bin/Release/netcoreapp2.1/publish
 ```
+
+## Now
+
+```
+now
+```

@@ -1,0 +1,19 @@
+FROM microsoft/dotnet:2.1-sdk-alpine as build
+WORKDIR /app
+
+COPY src/HelloWorld/HelloWorld.csproj .
+RUN dotnet restore
+
+COPY src src
+RUN dotnet build src/HelloWorld
+
+FROM build as publish
+WORKDIR /app
+RUN dotnet publish src/HelloWorld -c Release -o /app
+
+FROM microsoft/dotnet:2.1-runtime-alpine AS runtime
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
+WORKDIR /app
+COPY --from=publish /app .
+RUN dotnet --info
+ENTRYPOINT ["dotnet", "HelloWorld.dll"]
